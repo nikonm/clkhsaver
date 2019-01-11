@@ -1,5 +1,9 @@
 # Clickhouse batch saver
+[![Build Status](https://travis-ci.org/nikonm/clkhsaver.svg?branch=master)](https://travis-ci.org/nikonm/clkhsaver)
+
 Library for saving batch data in clickhouse, with dumping data if clickhouse unavailable
+
+
 
 ### Usage
 ```golang
