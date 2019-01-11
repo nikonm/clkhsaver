@@ -3,15 +3,26 @@
 
 Library for saving batch data in clickhouse, with dumping data if clickhouse unavailable
 
-
-
 ### Usage
 ```golang
 // EmergencyDumper - used for save dump of data when clickhouse unavailable, 
 // if then clickhouse is available all data restore to clickhouse queue
-dumper := &EmergencyDumper{
+//Sample for Filesystem driver
+dumperFileSystem := &EmergencyDumper{
 	CheckInterval:time.Duration(5)*time.Second,
 	Options: map[string]interface{}{"Type": "fs", "FS.Dir": "/tmp"},
+}
+//Sample for S3 driver
+dumperForS3 := &EmergencyDumper{
+	CheckInterval:time.Duration(5)*time.Second,
+	Options: map[string]interface{}{
+	    "Type": "s3",
+	    "S3.Bucket": "test-bucket",
+	    "S3.Endpoint": "minio.domain.local", 
+	    "S3.AccessKey": "AccessKeySample",
+	    "S3.SecretAccess": "SecretAccessSample",
+	    "S3.UseSSL": true,
+	    },
 }
 
 clckHouse := New(
@@ -23,7 +34,7 @@ clckHouse := New(
 	func(err error) {
 		t.Log(err)
 	},
-	dumper,
+	dumperFileSystem,
 )
 err := clckHouse.Connect()
 if err != nil {
